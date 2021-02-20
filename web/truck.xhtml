@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+                <div>
+            <h1>Register Truck</h1>
+        </div>
+        <div>
+            <h:form>
+                <div>
+                    <label>Plate No</label>
+                    <h:inputText value="#{carModel.truck.plateNumber}"/>
+                </div>
+                <div>
+                    <label>Model</label>
+                    <h:inputText value="#{carModel.truck.model}"/>
+                </div>
+                <div>
+                    <label>Manufacture Year</label>
+                    <h:inputText value="#{carModel.truck.manufacturerYear}"/>
+                </div>
+                <div>
+                    <label>Number of Passenger</label>
+                    <h:inputText value="#{carModel.truck.loadCapacity}"/>
+                </div>
+                <div>
+                    <label>Owner</label>
+                    <h:selectOneMenu value="#{carModel.truck.owner.id}">
+                        <f:selectItems value="#{carModel.map.entrySet()}" var="o" itemLabel="#{o.value}" itemValue="#{o.key}" />
+                    </h:selectOneMenu>
+                </div>
+
+                <div>
+                    <h:commandButton value="#{carModel.isUpdateTruck?'update':'register'}" action="#{carModel.registerTruck()}"/>
+                    <h:commandButton value="cancle update" action="#{carModel.canceTruckUpdate()}" rendered="#{carModel.isUpdateTruck}"/>
+                </div>
+            </h:form>
+        </div>
+        <div>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Plate No</th>
+                        <th>Model</th>
+                        <th>Manufacture Year</th>
+                        <th>Load Capacity</th>
+                        <th>Owner name</th>
+                        <th>Owner NationalId</th>
+                        <th>Operations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ui:repeat value="#{carModel.trucks}" var="car">
+                        <tr>
+                            <td>#{car.plateNumber}</td>
+                            <td>#{car.model}</td>
+                            <td>#{car.manufacturerYear}</td>
+                            <td>#{car.loadCapacity}</td>
+                            <td>#{car.owner.name}</td>
+                            <td>#{car.owner.nationalId}</td>
+                            <td>
+                                <h:form>
+                                    <h:commandButton value="delete" action="#{carModel.deleteTruck(car)}"/>
+                                    <h:commandButton action="#{carModel.truckUpdateSwitch(car)}" value="update"/>
+                                </h:form>
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                </tbody>
+            </table>
+
+        </div>
+    </h:body>
+</html>
+
